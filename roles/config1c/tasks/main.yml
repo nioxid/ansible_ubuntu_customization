@@ -1,0 +1,54 @@
+---
+- name: Install, config 1c
+  block:
+    - name: Create 1c conf dir
+      file:
+        path: "{{ c_conf_path }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+
+    - name: Copy nethasp.ini file.
+      template:
+        src: files/nethasp.j2
+        dest: "{{ c_conf_path }}/nethasp.ini"
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy conf.cfg file.
+      template:
+        src: files/conf.j2
+        dest: "{{ c_conf_path }}/conf.cfg"
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy 1c package
+      copy:
+        src: files/distr/setup-full-8.3.20.1674-x86_64.run
+        dest: "{{ c_distr_path }}"
+        mode: "0775"
+
+    - name: "Check if 1cv8 path exists"
+      stat:
+        path: "{{ cv8_path }}"
+      register: result
+  
+#  - name: "Do something if path exists"
+#    command: ...
+#    when: result.stat.exists
+
+    - name: "Install 1c client if path doesn't exist"
+      command: "{{ c_distr_path }}/setup-full-8.3.20.1674-x86_64.run --mode unattended --enable-components client_full,client_thin,liberica_jre,ru"
+      when: not result.stat.exists
+
+    - name: Remove 1c-enterprise-8.3.18.1483-thin-client
+      apt:
+        name: 1c-enterprise-8.3.18.1483-thin-client
+        state: absent
+
+        

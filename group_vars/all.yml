@@ -1,0 +1,24 @@
+---
+######################################
+### Configure OS
+# Role OS
+os_update_packages: false  # true or false for update packages
+os_timezone: Asia/Yekaterinburg
+install_packages: [ 'curl', 'mc', 'htop', 'iftop', 'iotop', 'sshfs', 'wget', 'net-tools', 'libenchant1c2a', 'tree', 'tmux' ]
+favorite_apps: "['chromium-gost.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Evolution.desktop', '1cv8c-8.3.20-1674.desktop', 'org.remmina.Remmina.desktop']"
+domain: my_domain
+domain_group_workstation_admins: workstationadmins
+user: my_user
+# Proxy server
+proxy_server: my_proxy
+proxy_port: 3128
+proxy_user: proxy_user
+proxy_pass: my_proxy_pass
+# 1c 
+c_conf_path: /opt/1cv8/conf
+cv8_path: /opt/1cv8/x86_64/8.3.20.1674
+c_distr_path: my_distr_path
+nh_server_addr: 10.0.0.1
+# pam mount
+fileserver: my_fileserver
+path_to_share_folder: my_folder

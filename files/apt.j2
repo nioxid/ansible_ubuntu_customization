@@ -1,0 +1,5 @@
+Acquire::http::proxy "http://{{ proxy_user }}:{{ proxy_pass }}@{{ proxy_server }}:{{ proxy_port }}/"\;
+Acquire::https::proxy "http://{{ proxy_user }}:{{ proxy_pass }}@{{ proxy_server }}:{{ proxy_port }}/"\;
+Acquire::ftp::proxy "http://{{ proxy_user }}:{{ proxy_pass }}@{{ proxy_server }}:{{ proxy_port }}/"\;
+Acquire::socks::proxy "http://{{ proxy_user }}:{{ proxy_pass }}@{{ proxy_server }}:{{ proxy_port }}/"\;
+Acquire::::Proxy "true";

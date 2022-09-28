@@ -1,0 +1,43 @@
+---
+- name: Add an apt key and repo libreoffice
+  block:
+    - name: Create calibri fonts directory if it does not exist
+      file:
+        path: /usr/share/fonts/truetype/calibri/
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+
+    - name: Copy and install microsoft fonts
+      ansible.posix.synchronize:
+        src: files/fonts/
+        dest: /usr/share/fonts/truetype/calibri/
+        delete: yes
+        recursive: yes
+        owner: no
+        group: no
+      
+    - name: update fonts cache
+      command: 'fc-cache -fv'    
+
+#    - name: Add an apt key libreoffice
+#      apt_key:
+#        keyserver: keyserver.ubuntu.com
+#        id: 36E81C9267FD1383FCC4490983FBA1751378B444
+
+#    - name: Add specified repository into sources list
+#      apt_repository:
+#        repo: deb https://ppa.launchpadcontent.net/libreoffice/ppa/ubuntu focal main
+#        state: present
+
+#    - name: Add source repository into sources list
+#      apt_repository:
+#        repo: deb-src https://ppa.launchpadcontent.net/libreoffice/ppa/ubuntu focal main
+#        state: present
+
+#    - name: Update packets version and update
+#      apt:
+#       upgrade: full
+#        update_cache: yes
+#        cache_valid_time: 86400 #One day

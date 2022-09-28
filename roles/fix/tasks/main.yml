@@ -1,0 +1,56 @@
+---
+- name: Update apt cache & install packages
+  block:
+
+    - name: Delete proxy.sh
+      file: 
+        path: /etc/profile.d/proxy.sh
+        state: absent
+
+    - name: Copy apt conf file
+      template:
+        src: files/apt.j2
+        dest: /etc/apt/apt.conf
+        force: yes
+        owner: root
+        group: root
+        mode: '0640'
+      
+    - name: Remove libwebkitgtk-3.0-0
+      apt:
+        name: libwebkitgtk-3.0-0
+        state: absent
+
+    - name: Change favorite apps
+      template:
+        src: files/00-favorite-apps.j2
+        dest: /etc/dconf/db/local.d/00-favorite-apps
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Disable scroll lock
+      template:
+        src: files/00-xkb-options.j2
+        dest: /etc/dconf/db/local.d/00-xkb-options
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update dconf
+      command: dconf update
+
+    - name: Disable GPO in sssd
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        state: present
+        insertafter: EOF
+        line: 'ad_gpo_access_control = disabled'
+
+    - name: Restart sssd
+      service:
+        name: sssd
+        state: restarted
+       

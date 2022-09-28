@@ -1,0 +1,30 @@
+---
+- name: Update apt cache & install packages
+  block:
+    - name: Disable keyring ssh autostart
+      lineinfile:
+        dest: /etc/xdg/autostart/gnome-keyring-ssh.desktop
+        state: present
+        insertafter: EOF
+        line: 'X-GNOME-Autostart-enabled=false'
+
+    - name: Install required system packages
+      apt: name={{ install_packages }} state=latest
+
+    - name: Change smb version in mount free share
+      template:
+        src: files/pam_mount.conf.j2
+        dest: /etc/security/pam_mount.conf.xml
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes
+
+#- name: Set timezone
+#  timezone:
+#    name: "{{ os_timezone }}"
+#  ignore_errors: True

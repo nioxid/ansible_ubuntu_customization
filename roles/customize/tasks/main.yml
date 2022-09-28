@@ -1,0 +1,23 @@
+---
+- name: Update apt cache & install packages
+  block:
+    - name: Customize ubuntu logo in bootup screen
+      copy:
+        src: files/ubuntu-logo.png
+        dest: /usr/share/plymouth/ubuntu-logo.png
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Customize ubuntu logo in shutdown screen
+      copy:
+        src: files/ubuntu-logo.png
+        dest: /usr/share/plymouth/themes/spinner/watermark.png
+        force: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update-initramfs
+      command: 'update-initramfs -u'

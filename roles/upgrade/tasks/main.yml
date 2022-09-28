@@ -1,0 +1,14 @@
+---
+- name: Update apt cache & install packages
+  block:
+    - name: Update apt
+      apt: 
+        update_cache: yes
+
+    - name: Update packets version and update
+      apt:
+        upgrade: full
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes

@@ -1,0 +1,48 @@
+---
+- name: Manage ssh keys
+  block:
+      - name: Set up multiple authorized keys
+        authorized_key:
+          user: "{{ user }}"
+          key: "{{ lookup('pipe','cat files/public_keys/*.pub') }}"
+          state: present
+          exclusive: yes
+
+      - name: Allow ladmin to have passwordless sudo
+        lineinfile:
+          dest: /etc/sudoers
+          state: present
+          insertafter: EOF
+          line: '{{ user }} ALL=(root) NOPASSWD: ALL'
+          validate: 'visudo -cf %s'
+
+      - name: Allow 'workstationadmins' group to have passwordless sudo
+        lineinfile:
+          dest: /etc/sudoers
+          state: present
+          insertafter: EOF
+          line: '%{{ domain_group_workstation_admins }} ALL=(ALL:ALL) ALL'
+          validate: 'visudo -cf %s'
+
+      - name: Disable password login
+        lineinfile: 
+          dest: /etc/ssh/sshd_config 
+          regexp: '^(#\s*)?PasswordAuthentication'
+          line: 'PasswordAuthentication no'
+
+      - name: Disable KbdInteractiveAuthentication
+        lineinfile: 
+          dest: /etc/ssh/sshd_config 
+          regexp: '^(#\s*)?KbdInteractiveAuthentication'
+          line: 'KbdInteractiveAuthentication no'
+
+      - name: Disable UsePAM
+        lineinfile: 
+          dest: /etc/ssh/sshd_config 
+          regexp: '^(#\s*)?UsePAM'
+          line: 'UsePAM no'
+
+      - name: Stop and Start ssh
+        service:
+          name: ssh
+          state: restarted

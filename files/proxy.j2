@@ -1,0 +1,10 @@
+#!/bin/bash
+http_proxy="http://{{ proxy_server }}:{{ proxy_port }}"
+https_proxy="http://{{ proxy_server }}:{{ proxy_port }}"
+ftp_proxy="http://{{ proxy_server }}:{{ proxy_port }}"
+HTTP_PROXY="http://{{ proxy_server }}:{{ proxy_port }}"
+HTTPS_PROXY="http://{{ proxy_server }}:{{ proxy_port }}"
+FTP_PROXY="http://{{ proxy_server }}:{{ proxy_port }}"
+no_proxy=localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12 # enter your network
+NO_PROXY=localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12 # enter your network
+export http_proxy ftp_proxy https_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY no_proxy NO_PROXY

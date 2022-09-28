@@ -1,0 +1,41 @@
+---
+- hosts: all
+  gather_facts: false
+  become_user: root
+  remote_user: "{{ user }}"
+  become_method: sudo
+  become: true
+  roles:
+    - role: managessh
+      tags: managessh
+
+    - role: password_change
+      tags: password_change
+
+    - role: libreoffice
+      tags: libreoffice
+
+    - role: upgrade
+      tags: upgrade
+
+    - role: os
+      tags: os
+
+    - role: config1c
+      tags: config1c
+
+    - role: fix
+      tags: fix
+
+    - role: customize
+      tags: customize
+
+# - hosts: srg
+#  gather_facts: true
+#  become: true
+#  roles:
+#    - role: monitoring
+#      tags: monitoring
+
+#    - role: nfs_server
+#      tags: nfs_server
