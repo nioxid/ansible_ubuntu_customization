@@ -29,13 +29,3 @@
 
     - role: customize
       tags: customize
-
-# - hosts: srg
-#  gather_facts: true
-#  become: true
-#  roles:
-#    - role: monitoring
-#      tags: monitoring
-
-#    - role: nfs_server
-#      tags: nfs_server
